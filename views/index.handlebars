@@ -1,0 +1,64 @@
+<!-- views/index.handlebars -->
+
+<h1>Assuntos</h1>
+
+<form action="/adicionar-assunto" method="post">
+    <label for="titulo">Título do Assunto:</label>
+    <input type="text" id="titulo" name="titulo" required>
+
+    <label for="descricao">Descrição do Assunto:</label>
+    <input type="text" id="descricao" name="descricao" required>
+
+    <label for="documentacoes">Documentações:</label>
+    <input type="text" id="documentacoes" name="documentacoes" required>
+
+    <div id="topicos-container">
+        <div class="topico">
+            <label for="topico-titulo">Título do Tópico:</label>
+            <input type="text" name="topicos[0][titulo]" required>
+
+            <label for="topico-detalhamento">Detalhamento do Tópico:</label>
+            <input type="text" name="topicos[0][detalhamento]" required>
+        </div>
+    </div>
+
+    <button type="button" onclick="adicionarTopico()">+</button>
+
+    <button type="submit">Salvar</button>
+</form>
+
+{{#each assuntos}}
+<div>
+    <h2>{{titulo}}</h2>
+    <p>{{descricao}}</p>
+    <p>{{documentacoes}}</p>
+    <ul>
+        {{#each topicos}}
+        <li>
+            <strong>{{titulo}}</strong>: {{detalhamento}}
+        </li>
+        {{/each}}
+    </ul>
+</div>
+{{/each}}
+
+<script>
+    let topicoCount = 1;
+
+    function adicionarTopico() {
+        const container = document.getElementById('topicos-container');
+        const novoTopico = document.createElement('div');
+        novoTopico.className = 'topico';
+
+        novoTopico.innerHTML = `
+                <label for="topico-titulo">Título do Tópico:</label>
+                <input type="text" name="topicos[${topicoCount}][titulo]" required>
+
+                <label for="topico-detalhamento">Detalhamento do Tópico:</label>
+                <input type="text" name="topicos[${topicoCount}][detalhamento]" required>
+            `;
+
+        container.appendChild(novoTopico);
+        topicoCount++;
+    }
+</script>
